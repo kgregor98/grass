@@ -1,21 +1,28 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.service import Service as ChromiumService
 
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
+
+from selenium.common.exceptions import WebDriverException, NoSuchDriverException
+
 import time
 import requests
 import os
 import re
+import base64
 from flask import Flask
 
 extensionId = 'ilehaonighjijnmpnagapkhpcdbhclfg'
 CRX_URL = "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=98.0.4758.102&acceptformat=crx2,crx3&x=id%3D~~~~%26uc&nacl_arch=x86-64"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
 
-USER = os.environ['GRASS_USER']
-PASSW = os.environ['GRASS_PASS']
+try:
+    USER = os.environ['GRASS_USER']
+    PASSW = os.environ['GRASS_PASS']
+except:
+    USER = ''
+    PASSW = ''
 
 # are they set?
 if USER == '' or PASSW == '':
@@ -31,6 +38,7 @@ def download_extension(extension_id):
         for chunk in r.iter_content(chunk_size=128):
             fd.write(chunk)
 
+
 print('Downloading extension...')
 download_extension(extensionId)
 print('Downloaded! Installing extension and driver manager...')
@@ -44,11 +52,22 @@ options.add_argument('--no-sandbox')
 options.add_extension('grass.crx')
 
 print('Installed! Starting...')
-driver = webdriver.Chrome(options=options)
+try:
+    driver = webdriver.Chrome(options=options)
+except (WebDriverException, NoSuchDriverException) as e:
+    print('Could not start with Manager! Trying to default to manual path...')
+    try:
+        driver_path = "/usr/bin/chromedriver"
+        service = ChromeService(executable_path=driver_path)
+        driver = webdriver.Chrome(service=service, options=options)
+    except (WebDriverException, NoSuchDriverException) as e:
+        print('Could not start with manual path! Exiting...')
+        exit()
 
-driver.get('chrome-extension://'+extensionId+'/index.html')
+#driver.get('chrome-extension://'+extensionId+'/index.html')
 print('Started! Logging in...')
-time.sleep(3)
+
+driver.get('https://app.getgrass.io/')
 
 sleep = 0
 while True:
@@ -58,10 +77,11 @@ while True:
         driver.find_element('xpath', '//*[@type="submit"]')
         break
     except:
-        time.sleep(3)
+        time.sleep(1)
         print('Loading login form...')
         sleep += 1
         if sleep > 30:
+            print('Could not load login form! Exiting...')
             driver.quit()
             exit()
 
@@ -75,17 +95,33 @@ user.send_keys(USER)
 passw.send_keys(PASSW)
 submit.click()
 
+sleep = 0
+while True:
+    try:
+        e = driver.find_element('xpath', '//*[contains(text(), "Dashboard")]')
+        break
+    except:
+        time.sleep(1)
+        print('Logging in...')
+        sleep += 1
+        if sleep > 30:
+            print('Could not login! Double Check your username and password! Exiting...')
+            driver.quit()
+            exit()
+
 print('Logged in! Waiting for connection...')
+driver.get('chrome-extension://'+extensionId+'/index.html')
 sleep = 0
 while True:
     try:
         driver.find_element('xpath', '//*[contains(text(), "Network quality")]')
         break
     except:
-        time.sleep(3)
+        time.sleep(1)
         print('Loading connection...')
         sleep += 1
         if sleep > 30:
+            print('Could not load connection! Exiting...')
             driver.quit()
             exit()
 
