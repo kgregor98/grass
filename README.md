@@ -18,6 +18,7 @@ docker run -d \
     -p 8080:80 \
     -e GRASS_USER=myuser@mail.com \
     -e GRASS_PASS=mypass \
+    -e ALLOW_DEBUG=False \
     camislav/grass
 ```
 
