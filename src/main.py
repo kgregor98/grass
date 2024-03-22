@@ -16,7 +16,7 @@ import hashlib
 import sys
 
 extensionId = 'ilehaonighjijnmpnagapkhpcdbhclfg'
-CRX_URL = "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=98.0.4758.102&acceptformat=crx2,crx3&x=id%3D~~~~%26uc&nacl_arch=x86-64"
+CRX_URL = "https://c2.crxsoso.com/crx/blobs/AQF4VIWUQ-cCLexT3ffO6hgYJnpHCMPQuPETb2OGirLok52fXLB-I9jmvk8gBHzkfBg0cso3wZSIS0iTY0a-9kNYbfi-eZTKJ8whfCRP4lCToumEN5yapMa6UI5kRCtiz4IAxlKa5ZrBS297AZsWO6EuVm2UdTLKU0fO/ILEHAONIGHJIJNMPNAGAPKHPCDBHCLFG_3_3_2_0.crx?ext=crx&filename=Grass%20Extension%203.3.2&type=install"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36"
 
 try:
