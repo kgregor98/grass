@@ -193,11 +193,11 @@ def get():
     
     try:
         #find all chakra-badge
-        badges = driver.find_elements('xpath', '//*[@class="chakra-badge"]')
+        badges = driver.find_elements('xpath', '//*[contains(@class, "chakra-badge")]')
         #find the one with chakra-text that contains either "Connected" or "Disconnected"
         connected = False
         for badge in badges:
-            text = badge.find_element_by_xpath('child::div').text
+            text = badge.find_element_by_xpath('child::div//p').text
             if 'Connected' in text:
                 connected = True
                 break
