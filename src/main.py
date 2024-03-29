@@ -184,7 +184,7 @@ def get():
 
     try:
         token = driver.find_element('xpath', '//*[@alt="token"]')
-        token = token.find_element('xpath', 'following-sibling::div')
+        token = token.find_element('xpath', 'following-sibling::div//p')
         epoch_earnings = token.text
     except Exception as e:
         epoch_earnings = False
