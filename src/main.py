@@ -197,7 +197,7 @@ def get():
         #find the one with chakra-text that contains either "Connected" or "Disconnected"
         connected = False
         for badge in badges:
-            text = badge.find_element_by_xpath('child::div//p').text
+            text = badge.find_element('xpath', 'child::div//p').text
             if 'Connected' in text:
                 connected = True
                 break
