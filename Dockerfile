@@ -9,4 +9,4 @@ COPY src .
 RUN pip install --no-cache-dir -r ./requirements.txt --break-system-packages
 
 CMD [ "python", "./main.py" ]
-EXPOSE 80
+EXPOSE 8080
