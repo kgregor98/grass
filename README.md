@@ -1,3 +1,10 @@
+# Abandoned 🚧
+
+> **⚠️ This project is no longer actively maintained.**
+
+Thank you for your interest in this project. Unfortunately, it has been **abandoned** and is no longer receiving updates or support. Please feel free to fork, modify, or use the code as you see fit, but note that issues and pull requests will not be reviewed.
+
+
 # Grass
 An unofficial Docker Image for [getgrass.io](https://app.getgrass.io/register/?referralCode=VqlevN7hfQLGGiQ)
 Available on [Docker Hub](https://hub.docker.com/r/camislav/grass)
